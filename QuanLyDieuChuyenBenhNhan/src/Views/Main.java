@@ -48,6 +48,12 @@ public class Main extends JFrame {
 
 	private JScrollPane scrollPane;
 
+	private DefaultMutableTreeNode phong1;
+
+	private DefaultMutableTreeNode phong2;
+
+	private DefaultMutableTreeNode phong3;
+
 	/**
 	 * Launch the application.
 	 */
@@ -102,10 +108,14 @@ public class Main extends JFrame {
 
 		khoaPhucHoiChucNang = new DefaultMutableTreeNode(" - Khoa Phục Hồi Chức Năng");
 		khoaUngBuou = new DefaultMutableTreeNode(" - Khoa Ung Bướu");
-		khoaNoiSoi = new DefaultMutableTreeNode(" Khoa Nội Soi");
-		khoaSoSinh = new DefaultMutableTreeNode(" Khoa So Sinh");
+		khoaNoiSoi = new DefaultMutableTreeNode("  - Khoa Nội Soi");
+		khoaSoSinh = new DefaultMutableTreeNode(" - Khoa So Sinh");
 
-		khoaPhucHoiChucNang.add(new DefaultMutableTreeNode("Phòng 1"));
+		khoaPhucHoiChucNang.add(phong1 = new DefaultMutableTreeNode(" - Phòng 1"));
+		khoaPhucHoiChucNang.add(phong2 = new DefaultMutableTreeNode(" - Phòng 2"));
+		khoaPhucHoiChucNang.add(phong3 = new DefaultMutableTreeNode(" - Phòng 3"));
+		
+		phong1.add(new DefaultMutableTreeNode("XYZ"));
 
 		tree = new JTree(khoaPhucHoiChucNang);
 		tree.setCellRenderer(renderer);
@@ -127,7 +137,7 @@ public class Main extends JFrame {
 		public void valueChanged(TreeSelectionEvent e) {
 			TreePath path = e.getPath();
 			String text = path.getPathComponent(path.getPathCount() - 1).toString();
-			if (path.getPathCount() > 3) {
+			if (path.getPathCount() > 1) {
 				text += ": ";
 				text += Integer.toString((int) (Math.random() * 50)) + " Wins ";
 				text += Integer.toString((int) (Math.random() * 50)) + " Losses";
