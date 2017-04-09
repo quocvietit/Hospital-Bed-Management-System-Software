@@ -29,6 +29,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
 public class GUI extends JFrame {
@@ -67,6 +68,7 @@ public class GUI extends JFrame {
 	private JButton buttonHieuQuaKhaiThac;
 	private JButton buttonMoRongGiuong;
 	private JButton buttonCatGiuong;
+	private DefaultTreeModel treeModel;
 
 	/**
 	 * Create the frame.
@@ -103,28 +105,17 @@ public class GUI extends JFrame {
 		JPanel pnWestNorth = new JPanel(new BorderLayout());
 		pnWestNorth.setPreferredSize(new Dimension(300, 540));
 
-		// Data tree
-		root = new DefaultMutableTreeNode("Danh sách Khoa");
-		DefaultMutableTreeNode khoa1 = new DefaultMutableTreeNode("Khoa 1");
-		DefaultMutableTreeNode khoa2 = new DefaultMutableTreeNode("Khoa 2");
-		DefaultMutableTreeNode p1 = new DefaultMutableTreeNode("Phòng 1");
-		DefaultMutableTreeNode p2 = new DefaultMutableTreeNode("Phòng 2");
-		DefaultMutableTreeNode p3 = new DefaultMutableTreeNode("Phòng 3");
-		DefaultMutableTreeNode p4 = new DefaultMutableTreeNode("Phòng 4");
-		DefaultMutableTreeNode p5 = new DefaultMutableTreeNode("Phòng 5");
-		khoa1.add(p1);
-		khoa1.add(p2);
-		khoa1.add(p3);
-		khoa2.add(p4);
-		khoa2.add(p5);
-		root.add(khoa1);
-		root.add(khoa2);
-
-		// Tree
-		tree = new JTree(root);
-		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-		JScrollPane jsTree = new JScrollPane(tree);
+		root = new DefaultMutableTreeNode("Danh sách khoa");
+		treeModel = new DefaultTreeModel(root);
+		treeModel.addTreeModelListener(new MyTreeModelListener());
 		
+		//tree
+		tree = new JTree(treeModel);
+		tree.setEditable(true);
+		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		tree.setShowsRootHandles(true);
+		
+		JScrollPane jsTree = new JScrollPane(tree);
 		pnWestNorth.add(jsTree);
 
 		pnWest.add(pnWestNorth, BorderLayout.NORTH);

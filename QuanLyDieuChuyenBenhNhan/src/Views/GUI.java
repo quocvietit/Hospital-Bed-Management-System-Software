@@ -7,6 +7,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,7 +22,11 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+
+import Databases.Database;
 
 public class GUI extends JFrame {
 
@@ -42,6 +48,8 @@ public class GUI extends JFrame {
 	private JTree tree;
 
 	private JButton buttonXemThongTin;
+
+	private DefaultTreeModel treeModel;
 
 	/**
 	 * Launch the application.
@@ -96,24 +104,15 @@ public class GUI extends JFrame {
 
 		// add data tree
 		root = new DefaultMutableTreeNode("Danh sách khoa");
-		DefaultMutableTreeNode khoa1 = new DefaultMutableTreeNode("Khoa 1");
-		DefaultMutableTreeNode khoa2 = new DefaultMutableTreeNode("Khoa 2");
-		DefaultMutableTreeNode p1 = new DefaultMutableTreeNode("Phòng 1");
-		DefaultMutableTreeNode p2 = new DefaultMutableTreeNode("Phòng 2");
-		DefaultMutableTreeNode p3 = new DefaultMutableTreeNode("Phòng 3");
-		DefaultMutableTreeNode p4 = new DefaultMutableTreeNode("Phòng 4");
-		DefaultMutableTreeNode p5 = new DefaultMutableTreeNode("Phòng 5");
-		khoa1.add(p1);
-		khoa1.add(p2);
-		khoa1.add(p3);
-		khoa2.add(p4);
-		khoa2.add(p5);
-		root.add(khoa1);
-		root.add(khoa2);
-
-		// Tree
-		tree = new JTree(root);
+		treeModel = new DefaultTreeModel(root);
+		treeModel.addTreeModelListener(new MyTreeModelListener());
+		
+		//tree
+		tree = new JTree(treeModel);
+		tree.setEditable(true);
 		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		tree.setShowsRootHandles(true);
+
 		JScrollPane jsTree = new JScrollPane(tree);
 		pnWestNorth.add(jsTree);
 
@@ -155,6 +154,7 @@ public class GUI extends JFrame {
 		contentPane.add(pnEast, BorderLayout.EAST);
 		
 		//event 
+		updateTree();
 		buttonXemThongTin.addActionListener(new ActionListener() {
 			
 			@Override
@@ -182,5 +182,24 @@ public class GUI extends JFrame {
 			}
 		});
 	}
+
+	private void updateTree() {
+		// TODO Auto-generated method stub
+		List<String> list = new ArrayList<String>();
+		list.add("k1");
+		for(int i=0; i<5; i++){
+			DefaultMutableTreeNode child = new DefaultMutableTreeNode(i);
+			treeModel.insertNodeInto(child,root, root.getChildCount());
+			if(true){
+				tree.scrollPathToVisible(new TreePath(child.getPath()));
+			}
+		}
+	}
+	
+	private List<String> getDS() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 
 }
