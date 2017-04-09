@@ -4,34 +4,23 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
-public class GUI extends JFrame {
+public class GUIKeToan extends JFrame {
 
 	/**
 	 * 
@@ -45,7 +34,7 @@ public class GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GUI frame = new GUI();
+					GUIKeToan frame = new GUIKeToan();
 					// frame.pack(); suitable for system
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -67,11 +56,12 @@ public class GUI extends JFrame {
 	private JButton buttonHieuQuaKhaiThac;
 	private JButton buttonMoRongGiuong;
 	private JButton buttonCatGiuong;
+	private JScrollPane jsTableGiuong;
 
 	/**
 	 * Create the frame.
 	 */
-	public GUI() {
+	public GUIKeToan() {
 		setTitle("Hệ thống Quản lý giường bệnh");
 		setSize(1000, 700);
 		setLocationRelativeTo(null);
@@ -156,7 +146,7 @@ public class GUI extends JFrame {
 		String[] colNameGiuong = { "Mã Giường", "Giá Giường", "Loại", "Trạng Thái"};
 		tableModeGiuong = new DefaultTableModel(colNameGiuong, 1);
 		tableGiuong = new JTable(tableModeGiuong);
-		JScrollPane jsTableGiuong= new JScrollPane(tableGiuong);
+		jsTableGiuong= new JScrollPane(tableGiuong);
 
 		//defauttable
 		pnEastNorth.add(jsTablePhong);

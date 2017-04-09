@@ -30,7 +30,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
-public class GUI extends JFrame {
+public class GUIKhoaDieuTri extends JFrame {
 
 	/**
 	 * 
@@ -44,7 +44,7 @@ public class GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GUI frame = new GUI();
+					GUIKhoaDieuTri frame = new GUIKhoaDieuTri();
 					// frame.pack(); suitable for system
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -75,7 +75,7 @@ public class GUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public GUI() {
+	public GUIKhoaDieuTri() {
 		setTitle("Hệ thống Quản lý giường bệnh");
 		setSize(1000, 700);
 		setLocationRelativeTo(null);
