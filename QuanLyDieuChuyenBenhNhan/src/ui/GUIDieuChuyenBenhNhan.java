@@ -8,6 +8,10 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+<<<<<<< HEAD:QuanLyDieuChuyenBenhNhan/src/ui/GUIDieuChuyenBenhNhan.java
+=======
+import java.util.List;
+>>>>>>> origin/master:QuanLyDieuChuyenBenhNhan/src/Views/GUI.java
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,8 +25,11 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+<<<<<<< HEAD:QuanLyDieuChuyenBenhNhan/src/ui/GUIDieuChuyenBenhNhan.java
 import entities.Bed;
 import entities.Department;
 import entities.Hospital;
@@ -30,6 +37,11 @@ import entities.Room;
 import javafx.scene.control.ScrollPane;
 
 public class GUIDieuChuyenBenhNhan extends JFrame {
+=======
+import Databases.Database;
+
+public class GUI extends JFrame {
+>>>>>>> origin/master:QuanLyDieuChuyenBenhNhan/src/Views/GUI.java
 
 	/**
 	 * 
@@ -48,6 +60,8 @@ public class GUIDieuChuyenBenhNhan extends JFrame {
 	private ArrayList<Bed> listBed;
 
 	private TableModel model;
+
+	private DefaultTreeModel treeModel;
 
 	/**
 	 * Launch the application.
@@ -106,6 +120,7 @@ public class GUIDieuChuyenBenhNhan extends JFrame {
 
 		// add data tree
 		root = new DefaultMutableTreeNode("Danh sách khoa");
+<<<<<<< HEAD:QuanLyDieuChuyenBenhNhan/src/ui/GUIDieuChuyenBenhNhan.java
 //		DefaultMutableTreeNode khoa1 = new DefaultMutableTreeNode("Khoa 1");
 //		DefaultMutableTreeNode khoa2 = new DefaultMutableTreeNode("Khoa 2");
 //		DefaultMutableTreeNode p1 = new DefaultMutableTreeNode("Phòng 1");
@@ -141,7 +156,17 @@ public class GUIDieuChuyenBenhNhan extends JFrame {
 
 		// Tree
 		tree = new JTree(root);
+=======
+		treeModel = new DefaultTreeModel(root);
+		treeModel.addTreeModelListener(new MyTreeModelListener());
+		
+		//tree
+		tree = new JTree(treeModel);
+		tree.setEditable(true);
+>>>>>>> origin/master:QuanLyDieuChuyenBenhNhan/src/Views/GUI.java
 		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		tree.setShowsRootHandles(true);
+
 		JScrollPane jsTree = new JScrollPane(tree);
 		pnWestNorth.add(jsTree);
 
@@ -187,6 +212,7 @@ public class GUIDieuChuyenBenhNhan extends JFrame {
 		contentPane.add(pnEast, BorderLayout.EAST);
 		
 		//event 
+		updateTree();
 		buttonXemThongTin.addActionListener(new ActionListener() {
 			
 			@Override
@@ -214,5 +240,24 @@ public class GUIDieuChuyenBenhNhan extends JFrame {
 			}
 		});
 	}
+
+	private void updateTree() {
+		// TODO Auto-generated method stub
+		List<String> list = new ArrayList<String>();
+		list.add("k1");
+		for(int i=0; i<5; i++){
+			DefaultMutableTreeNode child = new DefaultMutableTreeNode(i);
+			treeModel.insertNodeInto(child,root, root.getChildCount());
+			if(true){
+				tree.scrollPathToVisible(new TreePath(child.getPath()));
+			}
+		}
+	}
+	
+	private List<String> getDS() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 
 }
