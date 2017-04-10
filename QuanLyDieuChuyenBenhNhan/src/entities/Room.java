@@ -21,13 +21,13 @@ public class Room {
 		this.price = price;
 		listBed = new ArrayList<Bed>();
 		
-//		Bed b1 = new Bed("b1", "Bed 1", 100, "Normal", "Active");
-//		Bed b2 = new Bed("b2", "Bed 2", 100, "Plus", "Active");
-//		Bed b3 = new Bed("b3", "Bed 3", 100, "Normal", "Active");
+		Bed b1 = new Bed("b1", "Bed 1", 100, "Normal", "Active");
+		Bed b2 = new Bed("b2", "Bed 2", 100, "Plus", "Active");
+		Bed b3 = new Bed("b3", "Bed 3", 100, "Normal", "Active");
 		
-//		listBed.add(b1);
-//		listBed.add(b2);
-//		listBed.add(b3);
+		listBed.add(b1);
+		listBed.add(b2);
+		listBed.add(b3);
 	}
 	
 	public String getRoomID() {

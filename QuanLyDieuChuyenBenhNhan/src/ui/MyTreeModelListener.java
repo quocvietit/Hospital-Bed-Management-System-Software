@@ -1,4 +1,4 @@
-package Views;
+package ui;
 
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;

@@ -1,5 +1,6 @@
 package ui;
 
+import java.beans.beancontext.BeanContextServiceProviderBeanInfo;
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
@@ -23,7 +24,7 @@ public class TableModel extends AbstractTableModel{
 	 * @param listBed
 	 */
 	public TableModel(ArrayList<Bed> listBed) {
-		super();
+		//super();
 		this.listBed = listBed;
 	}
 	
@@ -51,6 +52,33 @@ public class TableModel extends AbstractTableModel{
 	}
 
 	@Override
+	public Object getValueAt(int arg0, int arg1) {
+			Bed b = listBed.get(arg0);
+			switch (arg1) {
+			case BEDID:
+					return b.getBedID();
+			case BEDNAME:
+				return b.getBedName();
+			case PRICE:
+				return b.getPrice();
+			case TYPE:
+				return b.getType();
+			case STATUS:
+				return b.getStatus();
+			default:
+				return null;
+			}
+	//	return null;
+	}
+
+	@Override
+	public String toString() {
+		return "TableModel [listBed=" + listBed + "]";
+	}
+	
+	
+
+	/*@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Bed b = listBed.get(rowIndex);
 		switch (columnIndex) {
@@ -64,10 +92,9 @@ public class TableModel extends AbstractTableModel{
 			return b.getType();
 		case STATUS:
 			return b.getStatus();
-
 		default:
 			return b.getBedID();
 		}
-	}
+	}*/
 	
 }

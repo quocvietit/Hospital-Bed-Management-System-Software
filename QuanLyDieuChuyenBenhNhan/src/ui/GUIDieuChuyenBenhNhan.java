@@ -8,10 +8,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-<<<<<<< HEAD:QuanLyDieuChuyenBenhNhan/src/ui/GUIDieuChuyenBenhNhan.java
-=======
 import java.util.List;
->>>>>>> origin/master:QuanLyDieuChuyenBenhNhan/src/Views/GUI.java
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,7 +26,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-<<<<<<< HEAD:QuanLyDieuChuyenBenhNhan/src/ui/GUIDieuChuyenBenhNhan.java
 import entities.Bed;
 import entities.Department;
 import entities.Hospital;
@@ -37,12 +33,6 @@ import entities.Room;
 import javafx.scene.control.ScrollPane;
 
 public class GUIDieuChuyenBenhNhan extends JFrame {
-=======
-import Databases.Database;
-
-public class GUI extends JFrame {
->>>>>>> origin/master:QuanLyDieuChuyenBenhNhan/src/Views/GUI.java
-
 	/**
 	 * 
 	 */
@@ -66,20 +56,19 @@ public class GUI extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					GUIDieuChuyenBenhNhan frame = new GUIDieuChuyenBenhNhan();
-//					 //frame.pack(); suitable for system
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-	
+	/*public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GUIDieuChuyenBenhNhan frame = new GUIDieuChuyenBenhNhan();
+					 //frame.pack(); suitable for system
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}*/
 	public static void main(String[] args) {
 		new GUIDieuChuyenBenhNhan().setVisible(true);
 	}
@@ -120,50 +109,20 @@ public class GUI extends JFrame {
 
 		// add data tree
 		root = new DefaultMutableTreeNode("Danh sách khoa");
-<<<<<<< HEAD:QuanLyDieuChuyenBenhNhan/src/ui/GUIDieuChuyenBenhNhan.java
-//		DefaultMutableTreeNode khoa1 = new DefaultMutableTreeNode("Khoa 1");
-//		DefaultMutableTreeNode khoa2 = new DefaultMutableTreeNode("Khoa 2");
-//		DefaultMutableTreeNode p1 = new DefaultMutableTreeNode("Phòng 1");
-//		DefaultMutableTreeNode p2 = new DefaultMutableTreeNode("Phòng 2");
-//		DefaultMutableTreeNode p3 = new DefaultMutableTreeNode("Phòng 3");
-//		DefaultMutableTreeNode p4 = new DefaultMutableTreeNode("Phòng 4");
-//		DefaultMutableTreeNode p5 = new DefaultMutableTreeNode("Phòng 5");
-//		khoa1.add(p1);
-//		khoa1.add(p2);
-//		khoa1.add(p3);
-//		khoa2.add(p4);
-//		khoa2.add(p5);
-//		root.add(khoa1);
-//		root.add(khoa2);
 		
-//		pnWest.add(new JScrollPane(tree = new JTree(root)));
-//		listDepartment = new Hospital().getListDepartment();
-//		for(Department d : listDepartment){
-//			DefaultMutableTreeNode node = new DefaultMutableTreeNode(d);
-//			for(Room r : listRoom){
-//				DefaultMutableTreeNode node1 = new DefaultMutableTreeNode(r);
-//				node.add(node1);
-//			}
-//			root.add(node);
-//		}
-		
-		listRoom = new Hospital().getListRoom();
+		/*listRoom = new Hospital().getListRoom();
 		
 		for(Room r : listRoom){
 			DefaultMutableTreeNode node = new DefaultMutableTreeNode(r);
 			root.add(node);
 		}
-
-		// Tree
-		tree = new JTree(root);
-=======
+		*/
 		treeModel = new DefaultTreeModel(root);
 		treeModel.addTreeModelListener(new MyTreeModelListener());
 		
 		//tree
 		tree = new JTree(treeModel);
 		tree.setEditable(true);
->>>>>>> origin/master:QuanLyDieuChuyenBenhNhan/src/Views/GUI.java
 		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		tree.setShowsRootHandles(true);
 
@@ -190,15 +149,17 @@ public class GUI extends JFrame {
 		pnEastNorth.setPreferredSize(new Dimension(670, 540));
 
 		// table
-//		String[] colName = { "Mã giường", "Giá", "Loại giường", "Mã số bệnh nhân" };
-//		tableMode = new DefaultTableModel(colName, 1);
-//		table = new JTable(tableMode);
-//		JScrollPane jsTable = new JScrollPane(table);
-//		pnEastNorth.add(jsTable);
+		/*String[] colName = { "Mã giường", "Giá", "Loại giường", "Mã số bệnh nhân" };
+		tableMode = new DefaultTableModel(colName, 1);
+		table = new JTable(tableMode);
+		JScrollPane jsTable = new JScrollPane(table);
+		pnEastNorth.add(jsTable);*/
 		
-		pnEastNorth.add(new JScrollPane(table = new JTable()));
+		listBed = new Room().getListBed();
 		model = new TableModel(listBed);
-		table.setModel(model);
+		System.out.println(model.toString());
+		table = new JTable(model);
+		pnEastNorth.add(new JScrollPane(table));
 
 		pnEast.add(pnEastNorth, BorderLayout.NORTH);
 
