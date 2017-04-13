@@ -9,6 +9,7 @@ public class Room {
 	
 	private Department department;
 	private ArrayList<Bed> listBed;
+	private ArrayList<Patient> listPatient;
 	
 	public Room(){
 		this("","",0.0);
@@ -20,6 +21,7 @@ public class Room {
 		this.roomName = roomName;
 		this.price = price;
 		listBed = new ArrayList<Bed>();
+		listPatient = new ArrayList<Patient>();
 		
 		Bed b1 = new Bed("b1", "Bed 1", 100, "Normal", "Active");
 		Bed b2 = new Bed("b2", "Bed 2", 100, "Plus", "Active");
@@ -71,6 +73,13 @@ public class Room {
 		return listBed;
 	}
 	
+	public void setListPatient(ArrayList<Patient> listPatient) {
+		this.listPatient = listPatient;
+	}
+	
+	public ArrayList<Patient> getListPatient() {
+		return listPatient;
+	}
 
 	@Override
 	public String toString() {

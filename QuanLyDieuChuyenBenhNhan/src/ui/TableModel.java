@@ -1,6 +1,5 @@
 package ui;
 
-import java.beans.beancontext.BeanContextServiceProviderBeanInfo;
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
@@ -24,7 +23,6 @@ public class TableModel extends AbstractTableModel{
 	 * @param listBed
 	 */
 	public TableModel(ArrayList<Bed> listBed) {
-		//super();
 		this.listBed = listBed;
 	}
 	
@@ -48,7 +46,7 @@ public class TableModel extends AbstractTableModel{
 
 	@Override
 	public int getRowCount() {
-		return 5;
+		return listBed.size();
 	}
 
 	@Override

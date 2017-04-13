@@ -8,7 +8,6 @@ public class Department {
 	
 	// List Room
 	private ArrayList<Room> listRoom;
-	private Hospital hospital;
 	
 	public Department(){
 		this("", "");
@@ -52,14 +51,6 @@ public class Department {
 		this.listRoom = listRoom;
 	}
 	
-	public Hospital getHospital() {
-		return hospital;
-	}
-	
-	public void setHospital(Hospital hospital) {
-		this.hospital = hospital;
-	}
-
 	@Override
 	public String toString() {
 		return departmentName;

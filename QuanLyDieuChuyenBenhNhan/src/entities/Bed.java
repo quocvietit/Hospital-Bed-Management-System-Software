@@ -8,6 +8,7 @@ public class Bed {
 	private String status;
 	
 	private Room room;
+	private Patient patient;
 	
 	public Bed(){
 		this("","",0.0,"","");
@@ -72,8 +73,8 @@ public class Bed {
 	
 	@Override
 	public String toString() {
-		return "Bed [bedID=" + bedID + ", bedName=" + bedName + ", price=" + price + ", type=" + type 
-				+ ", status=" + status + "]";
+		return "\nbedID = " + bedID + ", bedName=" + bedName + ", price=" + price + ", type=" + type 
+				+ ", status=" + status + "]" ;
 	}
 
 	@Override

@@ -8,13 +8,11 @@ public class MyTreeModelListener implements TreeModelListener {
 
 	@Override
 	public void treeNodesChanged(TreeModelEvent arg0) {
-		// TODO Auto-generated method stub
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) arg0.getTreePath().getLastPathComponent();
 		try{
 			int index = arg0.getChildIndices()[0];
 			node = (DefaultMutableTreeNode) node.getChildAt(index);
 		}catch (NullPointerException e) {
-			// TODO: handle exception
 			System.out.println("New value: "+node.getUserObject());
 		}
 	}

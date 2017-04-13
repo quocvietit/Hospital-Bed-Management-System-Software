@@ -32,7 +32,7 @@ import entities.Hospital;
 import entities.Room;
 import javafx.scene.control.ScrollPane;
 
-public class GUIDieuChuyenBenhNhan extends JFrame {
+public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 	/**
 	 * 
 	 */
@@ -41,7 +41,7 @@ public class GUIDieuChuyenBenhNhan extends JFrame {
 	private JPanel contentPane;
 	private DefaultTableModel tableMode;
 	private JTable table;
-	private JButton buttonDieuChuyenBenhNhan;
+	private JButton buttonThemBenhNhan;
 	private DefaultMutableTreeNode root;
 	private JTree tree;
 	private JButton buttonXemThongTin;
@@ -52,26 +52,6 @@ public class GUIDieuChuyenBenhNhan extends JFrame {
 	private TableModel model;
 
 	private DefaultTreeModel treeModel;
-
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GUIDieuChuyenBenhNhan frame = new GUIDieuChuyenBenhNhan();
-					 //frame.pack(); suitable for system
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
-	public static void main(String[] args) {
-		new GUIDieuChuyenBenhNhan().setVisible(true);
-	}
 
 	/**
 	 * Create the frame.
@@ -157,6 +137,7 @@ public class GUIDieuChuyenBenhNhan extends JFrame {
 		
 		listBed = new Room().getListBed();
 		model = new TableModel(listBed);
+		// Print list bed
 		System.out.println(model.toString());
 		table = new JTable(model);
 		pnEastNorth.add(new JScrollPane(table));
@@ -166,7 +147,7 @@ public class GUIDieuChuyenBenhNhan extends JFrame {
 		// South-East
 		JPanel pnEastSouth = new JPanel();
 		pnEastSouth.setPreferredSize(new Dimension(670, 40));
-		pnEastSouth.add(buttonDieuChuyenBenhNhan = new JButton("Điều chuyển bệnh nhân"));
+		pnEastSouth.add(buttonThemBenhNhan = new JButton("Thêm bệnh nhân"));
 
 		pnEast.add(pnEastSouth, BorderLayout.SOUTH);
 
@@ -174,23 +155,6 @@ public class GUIDieuChuyenBenhNhan extends JFrame {
 		
 		//event 
 		updateTree();
-		buttonXemThongTin.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//Xem thông tin phòng bệnh
-				
-			}
-		});
-		
-		buttonDieuChuyenBenhNhan.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// Điều chuyển bệnh nhân
-				
-			}
-		});
 		
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			
@@ -200,10 +164,12 @@ public class GUIDieuChuyenBenhNhan extends JFrame {
 				
 			}
 		});
+		
+		buttonThemBenhNhan.addActionListener(this);
+		buttonXemThongTin.addActionListener(this);
 	}
 
 	private void updateTree() {
-		// TODO Auto-generated method stub
 		List<String> list = new ArrayList<String>();
 		list.add("k1");
 		for(int i=0; i<5; i++){
@@ -219,6 +185,20 @@ public class GUIDieuChuyenBenhNhan extends JFrame {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if(o.equals(buttonXemThongTin)){
+			
+		}
+		else if(o.equals(buttonThemBenhNhan)){
+			
+		}
+	}
 	
+	public static void main(String[] args) {
+		new GUIDieuChuyenBenhNhan().setVisible(true);
+	}
 
 }

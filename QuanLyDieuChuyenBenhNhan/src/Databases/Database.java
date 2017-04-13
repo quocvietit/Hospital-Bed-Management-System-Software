@@ -8,14 +8,12 @@ public class Database {
 	private static Connection connec;
 
 	public Database() {
-		// TODO Auto-generated constructor stub
-		String url = "jdbc:sqlserver://loaclhost;database=HospitalBedManagement";
+		String url = "jdbc:sqlserver://localhost;database=HospitalBedManagement";
 		String user = "sa";
-		String password = "abc@123";
+		String password = "12345678";
 		try {
 			connec = DriverManager.getConnection(url, user, password);
 		} catch (SQLException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}
