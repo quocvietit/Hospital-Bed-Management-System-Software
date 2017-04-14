@@ -91,6 +91,16 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 
 		// add data tree
 		root = new DefaultMutableTreeNode("Danh sách khoa");
+<<<<<<< HEAD
+=======
+		
+		listDepartment = new Hospital().getListDepartment();
+		
+		for(Department r : listDepartment){
+			DefaultMutableTreeNode node = new DefaultMutableTreeNode(r.getDepartmentName());
+			root.add(node);
+		}
+>>>>>>> origin/master
 		treeModel = new DefaultTreeModel(root);
 		treeModel.addTreeModelListener(new MyTreeModelListener());
 		
