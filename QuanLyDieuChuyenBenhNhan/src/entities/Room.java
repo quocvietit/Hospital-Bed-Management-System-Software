@@ -9,7 +9,7 @@ public class Room {
 	
 	private Department department;
 	private ArrayList<Bed> listBed;
-	private ArrayList<Patient> listPatient;
+	//private ArrayList<Patient> listPatient;
 	
 	public Room(){
 		this("","",0.0);
