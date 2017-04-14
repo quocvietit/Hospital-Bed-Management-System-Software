@@ -8,7 +8,7 @@ public class Bed {
 	private String status;
 	
 	private Room room;
-	private Patient patient;
+	//private Patient patient;
 	
 	public Bed(){
 		this("","",0.0,"","");

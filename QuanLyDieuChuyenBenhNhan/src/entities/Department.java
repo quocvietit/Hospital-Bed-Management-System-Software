@@ -50,7 +50,7 @@ public class Department {
 		this.departmentName = departmentName;
 	}
 
-	public ArrayList<Room> getListRoom(String departmentID) {
+	public ArrayList<Room> getListRoom() {
 		Connection connec = Database.getCon();
 		PreparedStatement stmt =  null;
 		ResultSet rs = null;

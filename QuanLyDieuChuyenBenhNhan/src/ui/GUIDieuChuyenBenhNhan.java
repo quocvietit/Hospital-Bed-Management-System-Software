@@ -32,14 +32,14 @@ import entities.Hospital;
 import entities.Room;
 import javafx.scene.control.ScrollPane;
 
-public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
+public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
-	private DefaultTableModel tableMode;
+	private TableModel tableMode;
 	private JTable table;
 	private JButton buttonThemBenhNhan;
 	private DefaultMutableTreeNode root;
@@ -48,8 +48,6 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 	private ArrayList<Department> listDepartment;
 	private ArrayList<Room> listRoom;
 	private ArrayList<Bed> listBed;
-
-	private TableModel model;
 
 	private DefaultTreeModel treeModel;
 
@@ -89,17 +87,10 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 
 		// add data tree
 		root = new DefaultMutableTreeNode("Danh sách khoa");
-		
-	/*	listDepartment = new Hospital().getListDepartment();
-		
-		for(Department r : listDepartment){
-			DefaultMutableTreeNode node = new DefaultMutableTreeNode(r.getDepartmentName());
-			root.add(node);
-		}*/
 		treeModel = new DefaultTreeModel(root);
 		treeModel.addTreeModelListener(new MyTreeModelListener());
-		
-		//tree
+
+		// tree
 		tree = new JTree(treeModel);
 		tree.setEditable(true);
 		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -128,17 +119,9 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 		pnEastNorth.setPreferredSize(new Dimension(670, 540));
 
 		// table
-		/*String[] colName = { "Mã giường", "Giá", "Loại giường", "Mã số bệnh nhân" };
-		tableMode = new DefaultTableModel(colName, 1);
-		table = new JTable(tableMode);
-		JScrollPane jsTable = new JScrollPane(table);
-		pnEastNorth.add(jsTable);*/
-		
 		listBed = new Room().getListBed();
-		model = new TableModel(listBed);
-		// Print list bed
-		System.out.println(model.toString());
-		table = new JTable(model);
+		tableMode = new TableModel(listBed);
+		table = new JTable(tableMode);
 		pnEastNorth.add(new JScrollPane(table));
 
 		pnEast.add(pnEastNorth, BorderLayout.NORTH);
@@ -151,52 +134,62 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 		pnEast.add(pnEastSouth, BorderLayout.SOUTH);
 
 		contentPane.add(pnEast, BorderLayout.EAST);
-		
-		//event 
+
+		// event
 		updateTree();
-		
+
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
-			
+
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
-				// select tree
-				
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+
+				if (node == null) {
+					return;
+				} else if (node.getLevel() == 2) {
+					Object nodeInfo = node.getUserObject();
+					Room room = (Room) nodeInfo;
+					System.out.println(room.getListBed());
+					/*for (Bed bed : listBed) {
+						Object[] rowData = { bed.getBedID(), bed.getBedName(), bed.getPrice(), bed.getType(),
+								bed.getStatus() };
+						tableMode.(rowData);
+					}*/
+
+				} else {
+					Object nodeInfo = node.getUserObject();
+					Department department = (Department) nodeInfo;
+					System.out.println(department.getDepartmentID());
+				}
 			}
 		});
-		
+
 		buttonThemBenhNhan.addActionListener(this);
 		buttonXemThongTin.addActionListener(this);
 	}
 
 	private void updateTree() {
 		listDepartment = new Hospital().getListDepartment();
-		for(Department department:listDepartment){
-			DefaultMutableTreeNode child = new DefaultMutableTreeNode(department.getDepartmentName());
-			treeModel.insertNodeInto(child,root, root.getChildCount());
-			
-			listRoom =  new Department().getListRoom(department.getDepartmentID());
-			for(Room room:listRoom){
-				treeModel.insertNodeInto(new DefaultMutableTreeNode(room.getRoomName()),child, child.getChildCount());
-			}	
+		for (Department department : listDepartment) {
+			DefaultMutableTreeNode child = new DefaultMutableTreeNode(department);
+			treeModel.insertNodeInto(child, root, root.getChildCount());
+			listRoom = department.getListRoom();
+			for (Room room : listRoom) {
+				treeModel.insertNodeInto(new DefaultMutableTreeNode(room), child, child.getChildCount());
+			}
 		}
-	}
-	
-	private List<String> getDS() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if(o.equals(buttonXemThongTin)){
-			
-		}
-		else if(o.equals(buttonThemBenhNhan)){
-			
+		if (o.equals(buttonXemThongTin)) {
+
+		} else if (o.equals(buttonThemBenhNhan)) {
+
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		new GUIDieuChuyenBenhNhan().setVisible(true);
 	}
