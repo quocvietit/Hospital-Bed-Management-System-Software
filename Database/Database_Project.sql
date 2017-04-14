@@ -1,3 +1,4 @@
+use HospitalBedManagement
 create table Department
 (
 	DepartmentID nvarchar(30) not null primary key,
@@ -40,6 +41,8 @@ REFERENCES Room (RoomID)
 
 ALTER TABLE Patient  WITH CHECK ADD FOREIGN KEY(BedID)
 REFERENCES Bed (BedID)
+
+select * from Department
 
 ALTER TABLE Patient  WITH CHECK ADD FOREIGN KEY(RoomID)
 REFERENCES Room (RoomID)
