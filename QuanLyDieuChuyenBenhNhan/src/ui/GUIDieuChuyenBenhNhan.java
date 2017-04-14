@@ -90,12 +90,12 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 		// add data tree
 		root = new DefaultMutableTreeNode("Danh sách khoa");
 		
-		listDepartment = new Hospital().getListDepartment();
+	/*	listDepartment = new Hospital().getListDepartment();
 		
 		for(Department r : listDepartment){
 			DefaultMutableTreeNode node = new DefaultMutableTreeNode(r.getDepartmentName());
 			root.add(node);
-		}
+		}*/
 		treeModel = new DefaultTreeModel(root);
 		treeModel.addTreeModelListener(new MyTreeModelListener());
 		
@@ -169,14 +169,15 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 	}
 
 	private void updateTree() {
-		List<String> list = new ArrayList<String>();
-		list.add("k1");
-		for(int i=0; i<5; i++){
-			DefaultMutableTreeNode child = new DefaultMutableTreeNode(i);
+		listDepartment = new Hospital().getListDepartment();
+		for(Department department:listDepartment){
+			DefaultMutableTreeNode child = new DefaultMutableTreeNode(department.getDepartmentName());
 			treeModel.insertNodeInto(child,root, root.getChildCount());
-			if(true){
-				tree.scrollPathToVisible(new TreePath(child.getPath()));
-			}
+			
+			listRoom =  new Department().getListRoom(department.getDepartmentID());
+			for(Room room:listRoom){
+				treeModel.insertNodeInto(new DefaultMutableTreeNode(room.getRoomName()),child, child.getChildCount());
+			}	
 		}
 	}
 	

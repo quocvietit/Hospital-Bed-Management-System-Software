@@ -1,6 +1,13 @@
 package entities;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+import Databases.Database;
+import Databases.DbUtils;
 
 public class Department {
 	private String departmentID;
@@ -43,7 +50,22 @@ public class Department {
 		this.departmentName = departmentName;
 	}
 
-	public ArrayList<Room> getListRoom() {
+	public ArrayList<Room> getListRoom(String departmentID) {
+		Connection connec = Database.getCon();
+		PreparedStatement stmt =  null;
+		ResultSet rs = null;
+		try{
+			stmt = connec.prepareStatement("select * from Room where DepartmentID = ?");
+			stmt.setString(1, departmentID);
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				listRoom.add(new Room(rs.getString(1), rs.getString(2), Double.parseDouble(rs.getString(3))));
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally{
+			DbUtils.close(rs, stmt);
+		}
 		return listRoom;
 	}
 
@@ -55,5 +77,6 @@ public class Department {
 	public String toString() {
 		return departmentName;
 	}
+	
 	
 }
