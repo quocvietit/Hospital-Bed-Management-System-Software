@@ -20,6 +20,7 @@ public class Room {
 		this.roomID = roomID;
 		this.roomName = roomName;
 		this.price = price;
+		department = new Department();
 		listBed = new ArrayList<Bed>();
 		listPatient = new ArrayList<Patient>();
 		

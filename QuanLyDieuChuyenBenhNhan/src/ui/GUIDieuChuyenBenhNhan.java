@@ -7,6 +7,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +41,6 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
-	private DefaultTableModel tableMode;
 	private JTable table;
 	private JButton buttonThemBenhNhan;
 	private DefaultMutableTreeNode root;
@@ -48,6 +49,7 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 	private ArrayList<Department> listDepartment;
 	private ArrayList<Room> listRoom;
 	private ArrayList<Bed> listBed;
+	private String bedID;
 
 	private TableModel model;
 
@@ -89,14 +91,6 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 
 		// add data tree
 		root = new DefaultMutableTreeNode("Danh sách khoa");
-		
-		/*listRoom = new Hospital().getListRoom();
-		
-		for(Room r : listRoom){
-			DefaultMutableTreeNode node = new DefaultMutableTreeNode(r);
-			root.add(node);
-		}
-		*/
 		treeModel = new DefaultTreeModel(root);
 		treeModel.addTreeModelListener(new MyTreeModelListener());
 		
@@ -108,16 +102,13 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 
 		JScrollPane jsTree = new JScrollPane(tree);
 		pnWestNorth.add(jsTree);
-
 		pnWest.add(pnWestNorth, BorderLayout.NORTH);
 
 		// South-West
 		JPanel pnWestSouth = new JPanel();
 		pnWestSouth.setPreferredSize(new Dimension(300, 40));
 		pnWestSouth.add(buttonXemThongTin = new JButton("Xem Thông Tin"));
-
 		pnWest.add(pnWestSouth, BorderLayout.SOUTH);
-
 		contentPane.add(pnWest, BorderLayout.WEST);
 
 		// East
@@ -127,13 +118,6 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 		// North-East
 		JPanel pnEastNorth = new JPanel(new BorderLayout());
 		pnEastNorth.setPreferredSize(new Dimension(670, 540));
-
-		// table
-		/*String[] colName = { "Mã giường", "Giá", "Loại giường", "Mã số bệnh nhân" };
-		tableMode = new DefaultTableModel(colName, 1);
-		table = new JTable(tableMode);
-		JScrollPane jsTable = new JScrollPane(table);
-		pnEastNorth.add(jsTable);*/
 		
 		listBed = new Room().getListBed();
 		model = new TableModel(listBed);
@@ -141,16 +125,13 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 		System.out.println(model.toString());
 		table = new JTable(model);
 		pnEastNorth.add(new JScrollPane(table));
-
 		pnEast.add(pnEastNorth, BorderLayout.NORTH);
 
 		// South-East
 		JPanel pnEastSouth = new JPanel();
 		pnEastSouth.setPreferredSize(new Dimension(670, 40));
 		pnEastSouth.add(buttonThemBenhNhan = new JButton("Thêm bệnh nhân"));
-
 		pnEast.add(pnEastSouth, BorderLayout.SOUTH);
-
 		contentPane.add(pnEast, BorderLayout.EAST);
 		
 		//event 
@@ -167,6 +148,16 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 		
 		buttonThemBenhNhan.addActionListener(this);
 		buttonXemThongTin.addActionListener(this);
+		buttonXemThongTin.setEnabled(false);
+		buttonThemBenhNhan.setEnabled(false);
+		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				getBedIDAndRoomID();
+				buttonThemBenhNhan.setEnabled(true);
+			}
+		});
 	}
 
 	private void updateTree() {
@@ -181,9 +172,14 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 		}
 	}
 	
-	private List<String> getDS() {
-		// TODO Auto-generated method stub
-		return null;
+	String roomID;
+	
+	public void getBedIDAndRoomID(){
+		int row = table.getSelectedRow();
+		if(row >= 0){
+			bedID = (String) table.getValueAt(row, 0);
+			
+		}
 	}
 
 	@Override
@@ -193,6 +189,8 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 			
 		}
 		else if(o.equals(buttonThemBenhNhan)){
+			GUIAddPatient gui = new GUIAddPatient(bedID);
+			gui.setVisible(true);
 			
 		}
 	}

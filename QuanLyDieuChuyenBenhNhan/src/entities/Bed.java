@@ -21,6 +21,8 @@ public class Bed {
 		this.price = price;
 		this.type = type;
 		this.status = status;
+//		room = new Room();
+//		patient = new Patient();
 	}
 
 	public String getBedID() {
