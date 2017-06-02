@@ -3,15 +3,12 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,17 +19,14 @@ import javax.swing.JTree;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 import entities.Bed;
 import entities.Department;
 import entities.Hospital;
 import entities.Room;
-import javafx.scene.control.ScrollPane;
 
 public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 	/**
@@ -42,16 +36,16 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
 	private JTable table;
-	private JButton buttonThemBenhNhan;
+	private JButton btnAddPatient;
 	private DefaultMutableTreeNode root;
 	private JTree tree;
-	private JButton buttonXemThongTin;
 	private ArrayList<Department> listDepartment;
 	private ArrayList<Room> listRoom;
 	private ArrayList<Bed> listBed;
-	private String bedID;
-
-	private TableModel model;
+	private String bedName;
+	private String roomID;
+	private String departmentName;
+	private TableModel tableModel;
 
 	private DefaultTreeModel treeModel;
 
@@ -59,7 +53,7 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public GUIDieuChuyenBenhNhan() {
-		setTitle("Hệ thống Quản lý giường bệnh");
+		setTitle("HOSPITAL BED MANAGEMENT");
 		setSize(1000, 700);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -69,19 +63,17 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 
-		// North
+		// ------------- North ---------------
 		JPanel pnNorth = new JPanel();
 		pnNorth.setPreferredSize(new Dimension(1000, 60));
-
 		Font font = new Font("Times New Roman", Font.BOLD, 35);
-		JLabel lblTitle = new JLabel("QUẢN LÝ ĐIỀU CHUYỂN BỆNH NHÂN"); // title
+		JLabel lblTitle = new JLabel("MANAGEMENT PATIENT"); // title
 		lblTitle.setFont(font);
 		lblTitle.setForeground(Color.DARK_GRAY);
-
 		pnNorth.add(lblTitle);
 		contentPane.add(pnNorth, BorderLayout.NORTH);
 
-		// West
+		//------------- West ---------------
 		JPanel pnWest = new JPanel(new BorderLayout());
 		pnWest.setPreferredSize(new Dimension(300, 600));
 
@@ -89,122 +81,114 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener{
 		JPanel pnWestNorth = new JPanel(new BorderLayout());
 		pnWestNorth.setPreferredSize(new Dimension(300, 540));
 
-		// add data tree
-		root = new DefaultMutableTreeNode("Danh sách khoa");
-<<<<<<< HEAD
-=======
-		
-		listDepartment = new Hospital().getListDepartment();
-		
-		for(Department r : listDepartment){
-			DefaultMutableTreeNode node = new DefaultMutableTreeNode(r.getDepartmentName());
-			root.add(node);
-		}
->>>>>>> origin/master
+		// Data tree
+		root = new DefaultMutableTreeNode("Department Listing");
 		treeModel = new DefaultTreeModel(root);
 		treeModel.addTreeModelListener(new MyTreeModelListener());
-		
+
 		//tree
 		tree = new JTree(treeModel);
-		tree.setEditable(true);
+		tree.setEditable(false);
 		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		tree.setShowsRootHandles(true);
 
 		JScrollPane jsTree = new JScrollPane(tree);
 		pnWestNorth.add(jsTree);
 		pnWest.add(pnWestNorth, BorderLayout.NORTH);
-
-		// South-West
-		JPanel pnWestSouth = new JPanel();
-		pnWestSouth.setPreferredSize(new Dimension(300, 40));
-		pnWestSouth.add(buttonXemThongTin = new JButton("Xem Thông Tin"));
-		pnWest.add(pnWestSouth, BorderLayout.SOUTH);
 		contentPane.add(pnWest, BorderLayout.WEST);
 
-		// East
+		//-------------- East --------------
 		JPanel pnEast = new JPanel(new BorderLayout());
 		pnEast.setPreferredSize(new Dimension(670, 600));
 
 		// North-East
 		JPanel pnEastNorth = new JPanel(new BorderLayout());
 		pnEastNorth.setPreferredSize(new Dimension(670, 540));
-		
-		listBed = new Room().getListBed();
-		model = new TableModel(listBed);
-		// Print list bed
-		System.out.println(model.toString());
-		table = new JTable(model);
-		pnEastNorth.add(new JScrollPane(table));
+		pnEastNorth.add(new JScrollPane(table = new JTable()));
 		pnEast.add(pnEastNorth, BorderLayout.NORTH);
 
 		// South-East
 		JPanel pnEastSouth = new JPanel();
 		pnEastSouth.setPreferredSize(new Dimension(670, 40));
-		pnEastSouth.add(buttonThemBenhNhan = new JButton("Thêm bệnh nhân"));
+		pnEastSouth.add(btnAddPatient = new JButton("Add Patient"));
 		pnEast.add(pnEastSouth, BorderLayout.SOUTH);
 		contentPane.add(pnEast, BorderLayout.EAST);
-		
-		//event 
+
 		updateTree();
-		
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
-			
+
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
-				// select tree
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+				Object nodeInfo = node.getUserObject();
 				
+				if(nodeInfo instanceof Department){
+					Department department = (Department) nodeInfo;
+					System.out.println(department.getDepartmentID());
+				} else if(nodeInfo instanceof Room){
+					Room room = (Room) nodeInfo;
+					listBed = room.getListBed();
+					System.out.println(room.getRoomID());
+					tableModel = new TableModel(listBed);
+					table.setModel(tableModel);
+				}
 			}
 		});
 		
-		buttonThemBenhNhan.addActionListener(this);
-		buttonXemThongTin.addActionListener(this);
-		buttonXemThongTin.setEnabled(false);
-		buttonThemBenhNhan.setEnabled(false);
-		
+		btnAddPatient.addActionListener(this);
+		btnAddPatient.setEnabled(false);
+
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				getBedIDAndRoomID();
-				buttonThemBenhNhan.setEnabled(true);
+				btnAddPatient.setEnabled(true);
 			}
 		});
 	}
 
 	private void updateTree() {
-		List<String> list = new ArrayList<String>();
-		list.add("k1");
-		for(int i=0; i<5; i++){
-			DefaultMutableTreeNode child = new DefaultMutableTreeNode(i);
+		listDepartment = new Hospital().getListDepartment();
+		for(Department department : listDepartment){
+			DefaultMutableTreeNode child = new DefaultMutableTreeNode(department);
 			treeModel.insertNodeInto(child,root, root.getChildCount());
-			if(true){
-				tree.scrollPathToVisible(new TreePath(child.getPath()));
-			}
+
+			listRoom =  department.getListRoom();
+			for(Room room : listRoom){
+				DefaultMutableTreeNode child1 = new DefaultMutableTreeNode(room);
+				treeModel.insertNodeInto(child1, child, child.getChildCount());
+			}	
 		}
 	}
-	
-	String roomID;
-	
+
 	public void getBedIDAndRoomID(){
 		int row = table.getSelectedRow();
 		if(row >= 0){
-			bedID = (String) table.getValueAt(row, 0);
-			
+			bedName = (String) table.getValueAt(row, 1);
+			roomID = (String) table.getValueAt(row, 4);
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if(o.equals(buttonXemThongTin)){
-			
-		}
-		else if(o.equals(buttonThemBenhNhan)){
-			GUIAddPatient gui = new GUIAddPatient(bedID);
+		if(o.equals(btnAddPatient)){
+			String roomName = "";
+			Room r = new Room();
+			departmentName = r.findDepartment(roomID);
+			Department d = new Department();
+			for(Room r1 : d.getListRoom1()){
+				if(r1.getRoomID().equals(roomID)){
+					roomName = r1.getRoomName();
+					break;
+				}
+			}
+			GUIAddPatient gui = new GUIAddPatient(bedName, roomName, departmentName);
 			gui.setVisible(true);
-			
+
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		new GUIDieuChuyenBenhNhan().setVisible(true);
 	}
