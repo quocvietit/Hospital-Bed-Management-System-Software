@@ -8,7 +8,12 @@ public class Bed {
 	private String roomid;
 	private String typebed;
 	
+<<<<<<< HEAD
 //	private Patient patient;
+=======
+	private Room room;
+	//private Patient patient;
+>>>>>>> origin/master
 	
 	public Bed(){
 		this("","",0.0,"","","");
