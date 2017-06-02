@@ -1,4 +1,0 @@
-﻿Department: DepartmentID, DepartmentName
-Room: RoomID, RoomName, Price, DepartmentID
-Patient: PatientID, PatientName, DayOfBirth, IdentityNumber, RoomID, BedID
-Bed: BedID, BedName, Price, Type, Status, RoomID

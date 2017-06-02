@@ -42,13 +42,13 @@ public class Department {
 		this.departmentName = departmentName;
 	}
 	
-	public ArrayList<Room> getListRoom() {
+	public ArrayList<Room> getListRoom(String id) {
 		Connection connec = Database.getCon();
 		PreparedStatement stmt =  null;
 		ResultSet rs = null;
 		try{
 			stmt = connec.prepareStatement("select * from Room where DepartmentID = ?");
-			stmt.setString(1, departmentID);
+			stmt.setString(1, id);
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				listRoom.add(new Room(rs.getString(1), rs.getString(2), Double.parseDouble(rs.getString(3)), rs.getString(4), rs.getString(5)));

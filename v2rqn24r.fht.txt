@@ -1,0 +1,57 @@
+﻿Merge remote-tracking branch 'origin/master'
+
+# Conflicts:
+#	QuanLyDieuChuyenBenhNhan/src/ui/GUIDieuChuyenBenhNhan.java
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 2 and 3 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	modified:   Database/Database_Project.sql
+#	deleted:    Database/Notepad_Project.txt
+#	deleted:    Database/SQLQuery.sql
+#	modified:   QuanLyDieuChuyenBenhNhan/.classpath
+#	new file:   QuanLyDieuChuyenBenhNhan/src/convert/XMLConvert.java
+#	renamed:    QuanLyDieuChuyenBenhNhan/src/Databases/Database.java -> QuanLyDieuChuyenBenhNhan/src/database/Database.java
+#	renamed:    QuanLyGiuongBenhTrongKhoa/src/Databases/DbUtils.java -> QuanLyDieuChuyenBenhNhan/src/database/DbUtils.java
+#	modified:   QuanLyDieuChuyenBenhNhan/src/entities/Bed.java
+#	new file:   QuanLyDieuChuyenBenhNhan/src/entities/BedPatientDetails.java
+#	modified:   QuanLyDieuChuyenBenhNhan/src/entities/Department.java
+#	modified:   QuanLyDieuChuyenBenhNhan/src/entities/Hospital.java
+#	modified:   QuanLyDieuChuyenBenhNhan/src/entities/Patient.java
+#	modified:   QuanLyDieuChuyenBenhNhan/src/entities/Room.java
+#	modified:   QuanLyDieuChuyenBenhNhan/src/ui/GUIAddPatient.java
+#	modified:   QuanLyDieuChuyenBenhNhan/src/ui/GUIDieuChuyenBenhNhan.java
+#	modified:   QuanLyDieuChuyenBenhNhan/src/ui/TableModel.java
+#	modified:   QuanLyGiuongBenhBenhVien/.classpath
+#	modified:   QuanLyGiuongBenhBenhVien/src/Views/GUIKeToan.java
+#	modified:   QuanLyGiuongBenhTrongKhoa/.classpath
+#	modified:   QuanLyGiuongBenhTrongKhoa/.project
+#	new file:   QuanLyGiuongBenhTrongKhoa/.settings/org.jboss.ide.eclipse.as.core.prefs
+#	deleted:    QuanLyGiuongBenhTrongKhoa/src/Views/GUIKhoaDieuTri.java
+#	new file:   QuanLyGiuongBenhTrongKhoa/src/convert/XMLConvert.java
+#	renamed:    QuanLyGiuongBenhTrongKhoa/src/Databases/Database.java -> QuanLyGiuongBenhTrongKhoa/src/database/Database.java
+#	renamed:    QuanLyDieuChuyenBenhNhan/src/Databases/DbUtils.java -> QuanLyGiuongBenhTrongKhoa/src/database/DbUtils.java
+#	new file:   QuanLyGiuongBenhTrongKhoa/src/entities/Bed.java
+#	new file:   QuanLyGiuongBenhTrongKhoa/src/entities/BedPatientDetails.java
+#	new file:   QuanLyGiuongBenhTrongKhoa/src/entities/Department.java
+#	new file:   QuanLyGiuongBenhTrongKhoa/src/entities/Patient.java
+#	new file:   QuanLyGiuongBenhTrongKhoa/src/entities/Room.java
+#	new file:   QuanLyGiuongBenhTrongKhoa/src/helper/DataHelper.java
+#	new file:   QuanLyGiuongBenhTrongKhoa/src/ui/GUIDepartment1.java
+#	renamed:    QuanLyGiuongBenhTrongKhoa/src/Views/MyTreeModelListener.java -> QuanLyGiuongBenhTrongKhoa/src/ui/MyTreeModelListener.java
+#	new file:   QuanLyGiuongBenhTrongKhoa/src/ui/TableModel.java
+#
+

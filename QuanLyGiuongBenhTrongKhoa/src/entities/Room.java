@@ -29,7 +29,6 @@ public class Room {
 		this.departmentID = departmentID;
 		this.typeRoomID = typeRoomID;
 		listBed = new ArrayList<Bed>();
-
 	}
 	
 	public String getRoomID() {
@@ -101,29 +100,12 @@ public class Room {
 		return roomName;
 	}
 	
-	// Add bed
-//	public boolean addBed(Bed b){
-//		if(listBed.contains(b)){
-//			return false;
-//		}
-//		else{
-//			b.setRoom(this);
-//			return listBed.add(b);
-//		}
-//	}
-	
 	// Find department with roomID
 	public String findDepartment(String roomID) {
 		Department d = new Department();
 		for(Room r : d.getListRoom1()){
 			if(r.getRoomID().equals(roomID)){
-				String departmentID = r.getDepartmentID();
-				Hospital h = new Hospital();
-				for(Department d1 : h.getListDepartment()){
-					if(d1.getDepartmentID().equals(departmentID)){
-						return d1.getDepartmentName();
-					}
-				}
+				return r.getDepartmentID();
 			}
 		}
 		return "Not found";

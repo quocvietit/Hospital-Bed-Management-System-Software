@@ -57,11 +57,8 @@ public class GUIKeToan extends JFrame {
 	private JButton buttonHieuQuaKhaiThac;
 	private JButton buttonMoRongGiuong;
 	private JButton buttonCatGiuong;
-<<<<<<< HEAD:QuanLyGiuongBenhBenhVien/src/Views/GUIKeToan.java
 	private JScrollPane jsTableGiuong;
-=======
 	private DefaultTreeModel treeModel;
->>>>>>> origin/master:QuanLyGiuongBenhBenhVien/src/Views/GUI.java
 
 	/**
 	 * Create the frame.
