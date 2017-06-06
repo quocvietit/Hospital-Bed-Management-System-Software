@@ -7,9 +7,9 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -52,8 +52,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
 import org.apache.log4j.BasicConfigurator;
-
-import com.sun.glass.events.MouseEvent;
 
 import convert.XMLConvert;
 import entities.Bed;
@@ -119,15 +117,36 @@ public class GUIDepartment1 extends JFrame implements ActionListener {
 		contentPane.setLayout(new BorderLayout(0, 0));
 
 		// North
-		JPanel pnNorth = new JPanel();
-		pnNorth.setPreferredSize(new Dimension(1000, 60));
+		JPanel pnlNorth = new JPanel();
+		pnlNorth.setPreferredSize(new Dimension(1000, 120));
+		JPanel pnlTitle = new JPanel();
+		pnlTitle.setPreferredSize(new Dimension(1000, 60));
 		Font font = new Font("Times New Roman", Font.BOLD, 35);
-		JLabel lblTitle = new JLabel("BED MANAGEMENT");
-		lblTitle.setFont(font);
-		lblTitle.setForeground(Color.RED);
-
-		pnNorth.add(lblTitle);
-		contentPane.add(pnNorth, BorderLayout.NORTH);
+		JLabel lbTitle = new JLabel("BED MANAGEMENT");
+		lbTitle.setFont(font);
+		lbTitle.setForeground(Color.RED);
+		pnlTitle.add(lbTitle);
+		pnlNorth.add(pnlTitle);
+		
+//		pnlNorth.add(btnPatientView = new JButton("Patient View"));
+		JPanel pnlSearch = new JPanel();
+		pnlSearch.setPreferredSize(new Dimension(1000, 30));
+		JLabel lbSearch = new JLabel("Enter PatientID");
+		pnlSearch.add(lbSearch);
+		pnlSearch.add(txtSearch = new JTextField());
+		pnlSearch.add(btnSearch = new JButton("Search"));
+		pnlNorth.add(pnlSearch);
+		// insert Search
+//		btnPatientView.setPreferredSize(new Dimension(100, 30));
+		txtSearch.setPreferredSize(new Dimension(300, 30));
+		txtSearch.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtSearch.setText("");
+			}
+		});
+		
+		contentPane.add(pnlNorth, BorderLayout.NORTH);
 
 		// West
 		JPanel pnWest = new JPanel(new BorderLayout());
@@ -167,45 +186,6 @@ public class GUIDepartment1 extends JFrame implements ActionListener {
 		// South-West
 		JPanel pnWestSouth = new JPanel();
 		pnWestSouth.setPreferredSize(new Dimension(300, 40));
-		pnWestSouth.add(btnPatientView = new JButton("Patient View"));
-		pnWestSouth.add(btnSearch = new JButton("Search"));
-		pnWestSouth.add(txtSearch = new JTextField("Enter PatientID"));
-		
-		// insert Search
-		btnPatientView.setPreferredSize(new Dimension(100, 30));
-		txtSearch.setPreferredSize(new Dimension(100, 30));
-		txtSearch.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(java.awt.event.MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(java.awt.event.MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(java.awt.event.MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(java.awt.event.MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(java.awt.event.MouseEvent e) {
-				txtSearch.setText("");
-				
-			}
-		});
 		
 		pnWest.add(pnWestSouth, BorderLayout.SOUTH);
 		contentPane.add(pnWest, BorderLayout.WEST);
@@ -394,12 +374,12 @@ public class GUIDepartment1 extends JFrame implements ActionListener {
 		});
 		
 		// event button
-		btnPatientView.addActionListener(this);
+//		btnPatientView.addActionListener(this);
 		btnSave.addActionListener(this);
 		btnXuatGiuong.addActionListener(this);
 		btnDoiGiuong.addActionListener(this);
 		btnSearch.addActionListener(this);
-		btnPatientView.setEnabled(false);
+//		btnPatientView.setEnabled(false);
 		
 		listModel = new DefaultListModel<String>();
 		jlistPatient.setModel(listModel);
@@ -407,7 +387,7 @@ public class GUIDepartment1 extends JFrame implements ActionListener {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
-				btnPatientView.setEnabled(true);
+//				btnPatientView.setEnabled(true);
 			}
 		});
 		
@@ -562,7 +542,7 @@ public class GUIDepartment1 extends JFrame implements ActionListener {
 			// lấy thông tin giường và đổi giường
 		} else if(o.equals(btnSearch)){
 			
-		}
+		} 
 	}
 
 	private void clearText() {

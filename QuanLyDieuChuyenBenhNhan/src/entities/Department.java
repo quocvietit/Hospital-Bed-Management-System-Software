@@ -41,11 +41,7 @@ public class Department {
 	public void setDepartmentName(String departmentName) {
 		this.departmentName = departmentName;
 	}
-<<<<<<< HEAD
 	
-=======
-
->>>>>>> origin/master
 	public ArrayList<Room> getListRoom() {
 		Connection connec = Database.getCon();
 		PreparedStatement stmt =  null;

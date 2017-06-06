@@ -8,13 +8,6 @@ public class Bed {
 	private String roomid;
 	private String typebed;
 	
-<<<<<<< HEAD
-//	private Patient patient;
-=======
-	private Room room;
-	//private Patient patient;
->>>>>>> origin/master
-	
 	public Bed(){
 		this("","",0.0,"","","");
 	}
@@ -27,17 +20,8 @@ public class Bed {
 		this.status = status;
 		this.roomid = roomid;
 		this.typebed = typebed;
-//		patient = new Patient();
 	}
 
-//	public void setPatient(Patient patient) {
-//		this.patient = patient;
-//	}
-//	
-//	public Patient getPatient() {
-//		return patient;
-//	}
-	
 	public String getBedID() {
 		return bedID;
 	}

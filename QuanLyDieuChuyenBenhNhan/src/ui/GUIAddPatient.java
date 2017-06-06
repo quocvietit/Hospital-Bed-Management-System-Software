@@ -208,12 +208,10 @@ public class GUIAddPatient extends JFrame implements ActionListener{
 					lbErrorPatientName.setVisible(true);
 					return false;
 				}
-			} else{
-				lbErrorPatientID.setVisible(true);
-				return false;
-			}
+			} 
 		}
-		return true;
+		lbErrorPatientID.setVisible(true);
+		return false;
 	}
 
 	private void send() {
