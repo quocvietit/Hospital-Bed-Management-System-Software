@@ -75,7 +75,8 @@ public class Room {
 		this.listBed = listBed;
 	}
 	
-	public ArrayList<Bed> getListBed() {
+	// get list bed with condition roomID = ?
+	public ArrayList<Bed> getListBed(String roomID) {
 		Connection connec = Database.getCon();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -83,6 +84,26 @@ public class Room {
 		try {
 			stmt = connec.prepareStatement("select * from Bed where RoomID = ?");
 			stmt.setString(1, roomID);
+			rs = stmt.executeQuery();
+			while (rs.next()) {
+				listBed.add(new Bed(rs.getString(1), rs.getString(2), Double.parseDouble(rs.getString(3)), rs.getString(4), rs.getString(5), rs.getString(6)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbUtils.close(rs, stmt);
+		}
+		return listBed;
+	}
+	
+	// get list bed no need condition
+	public ArrayList<Bed> getListBed1() {
+		Connection connec = Database.getCon();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		listBed = new ArrayList<Bed>();
+		try {
+			stmt = connec.prepareStatement("select * from Bed");
 			rs = stmt.executeQuery();
 			while (rs.next()) {
 				listBed.add(new Bed(rs.getString(1), rs.getString(2), Double.parseDouble(rs.getString(3)), rs.getString(4), rs.getString(5), rs.getString(6)));
@@ -109,6 +130,25 @@ public class Room {
 			}
 		}
 		return "Not found";
+	}
+	
+	// update status from pending to active
+	public void updateStatus(String bedID) {
+		Connection connection = Database.getCon();
+		String updateStatus = "update bed set status = ? where bedid = ?";
+		try {
+			PreparedStatement stmt = connection.prepareStatement(updateStatus);
+			stmt.setString(1, "Active");
+			stmt.setString(2, bedID);
+			int cnt = stmt.executeUpdate();
+			if(cnt > 0){
+				System.out.println("Update Status successfully");
+			}else{
+				System.out.println("Update Status failed");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

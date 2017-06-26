@@ -8,9 +8,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -101,6 +98,7 @@ public class GUIDepartment1 extends JFrame implements ActionListener {
 	private JTextField txtDepartment;
 	private JButton btnSearch;
 	private JTextField txtSearch;
+	private PatientTableModel patientTableModel;
 
 	/**
 	 * Create the frame.
@@ -120,7 +118,7 @@ public class GUIDepartment1 extends JFrame implements ActionListener {
 		JPanel pnlNorth = new JPanel();
 		pnlNorth.setPreferredSize(new Dimension(1000, 120));
 		JPanel pnlTitle = new JPanel();
-		pnlTitle.setPreferredSize(new Dimension(1000, 60));
+		pnlTitle.setPreferredSize(new Dimension(1000, 50));
 		Font font = new Font("Times New Roman", Font.BOLD, 35);
 		JLabel lbTitle = new JLabel("BED MANAGEMENT");
 		lbTitle.setFont(font);
@@ -128,24 +126,13 @@ public class GUIDepartment1 extends JFrame implements ActionListener {
 		pnlTitle.add(lbTitle);
 		pnlNorth.add(pnlTitle);
 		
-//		pnlNorth.add(btnPatientView = new JButton("Patient View"));
 		JPanel pnlSearch = new JPanel();
-		pnlSearch.setPreferredSize(new Dimension(1000, 30));
-		JLabel lbSearch = new JLabel("Enter PatientID");
-		pnlSearch.add(lbSearch);
+		pnlSearch.setPreferredSize(new Dimension(1000, 40));
+		pnlSearch.add(btnSearch = new JButton("Search PatientID"));
 		pnlSearch.add(txtSearch = new JTextField());
-		pnlSearch.add(btnSearch = new JButton("Search"));
 		pnlNorth.add(pnlSearch);
 		// insert Search
-//		btnPatientView.setPreferredSize(new Dimension(100, 30));
 		txtSearch.setPreferredSize(new Dimension(300, 30));
-		txtSearch.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				txtSearch.setText("");
-			}
-		});
-		
 		contentPane.add(pnlNorth, BorderLayout.NORTH);
 
 		// West
@@ -154,7 +141,7 @@ public class GUIDepartment1 extends JFrame implements ActionListener {
 
 		// North-West
 		JPanel pnWestNorth = new JPanel(new BorderLayout());
-		pnWestNorth.setPreferredSize(new Dimension(300, 540));
+		pnWestNorth.setPreferredSize(new Dimension(300, 490));
 
 		// Data tree
 		root = new DefaultMutableTreeNode("Department 1");
@@ -186,7 +173,8 @@ public class GUIDepartment1 extends JFrame implements ActionListener {
 		// South-West
 		JPanel pnWestSouth = new JPanel();
 		pnWestSouth.setPreferredSize(new Dimension(300, 40));
-		
+		pnWestSouth.add(btnPatientView = new JButton("Patient View"));
+		btnPatientView.setPreferredSize(new Dimension(150, 30));
 		pnWest.add(pnWestSouth, BorderLayout.SOUTH);
 		contentPane.add(pnWest, BorderLayout.WEST);
 
@@ -204,7 +192,7 @@ public class GUIDepartment1 extends JFrame implements ActionListener {
 
 		// North-East1
 		JPanel pnEast1North = new JPanel(new BorderLayout());
-		pnEast1North.setPreferredSize(new Dimension(670, 540));
+		pnEast1North.setPreferredSize(new Dimension(670, 490));
 
 		// Table
 		pnEast1North.add(new JScrollPane(table = new JTable()));
@@ -237,7 +225,7 @@ public class GUIDepartment1 extends JFrame implements ActionListener {
 		// North-East2
 		JPanel pnEast2North = new JPanel();
 		pnEast2North.setLayout(new BoxLayout(pnEast2North, BoxLayout.Y_AXIS));
-		pnEast2North.setPreferredSize(new Dimension(670, 540));
+		pnEast2North.setPreferredSize(new Dimension(670, 490));
 		pnEast2North.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 
 		// Label information
@@ -365,7 +353,7 @@ public class GUIDepartment1 extends JFrame implements ActionListener {
 				
 				if(nodeInfo instanceof Room){
 					Room room = (Room) nodeInfo;
-					listBed = room.getListBed();
+					listBed = room.getListBed(room.getRoomID());
 					System.out.println(room.getRoomID());
 					tableModel = new TableModel(listBed);
 					table.setModel(tableModel);
@@ -374,12 +362,12 @@ public class GUIDepartment1 extends JFrame implements ActionListener {
 		});
 		
 		// event button
-//		btnPatientView.addActionListener(this);
+		btnPatientView.addActionListener(this);
 		btnSave.addActionListener(this);
 		btnXuatGiuong.addActionListener(this);
 		btnDoiGiuong.addActionListener(this);
 		btnSearch.addActionListener(this);
-//		btnPatientView.setEnabled(false);
+		btnPatientView.setEnabled(false);
 		
 		listModel = new DefaultListModel<String>();
 		jlistPatient.setModel(listModel);
@@ -387,7 +375,7 @@ public class GUIDepartment1 extends JFrame implements ActionListener {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
-//				btnPatientView.setEnabled(true);
+				btnPatientView.setEnabled(true);
 			}
 		});
 		
@@ -495,14 +483,13 @@ public class GUIDepartment1 extends JFrame implements ActionListener {
 					txtRoomID.setText(patient.getRoomID());
 				}
 				btnPatientView.setText("Called the patient " + txtPatientName.getText());
+				btnSearch.setEnabled(false);
+				btnSave.setEnabled(true);
 				close();
 			}
 		} else if(o.equals(btnSave)){
-			int optionPane = JOptionPane.showConfirmDialog(null, "Are you sure!", "Confirm",
-					JOptionPane.YES_NO_OPTION);
+			int optionPane = JOptionPane.showConfirmDialog(null, "Are you sure!", "Confirm", JOptionPane.YES_NO_OPTION);
 			if (optionPane == 0) {
-//				System.out.println("select: " + optionPane);
-				
 				int index = -1;
 				for(int i = 0; i < listModel.size(); i++){
 					if(listModel.get(i).equals(txtPatientID.getText())){
@@ -515,15 +502,20 @@ public class GUIDepartment1 extends JFrame implements ActionListener {
 					listModel.remove(index);
 					listPatient.remove(index);
 					String patientID = txtPatientID.getText();
-					String bedID = txtBedID.getText();
+					String bedName = txtBedID.getText();
+					String bedID = convertBedID(bedName);
 					LocalDateTime checkin = LocalDateTime.now();
 					BedPatientDetails bedPatient = new BedPatientDetails(bedID, patientID, checkin, "");
 					boolean insert = DataHelper.insertData(bedPatient);
 					if(insert){
-						System.out.println("Update Success");
 						clearText();
 						btnPatientView.setText("Patient View");
 						btnPatientView.setEnabled(true);
+						btnSave.setEnabled(false);
+						btnSearch.setEnabled(true);
+						Room r = new Room();
+						r.updateStatus(bedID);
+						JOptionPane.showMessageDialog(null, "Save successfully", "Notification", JOptionPane.INFORMATION_MESSAGE);
 					}
 					else
 						System.out.println("Update fail");
@@ -541,8 +533,60 @@ public class GUIDepartment1 extends JFrame implements ActionListener {
 			System.out.println(maGiuong);
 			// lấy thông tin giường và đổi giường
 		} else if(o.equals(btnSearch)){
-			
+			if(!findPatient()){
+				BedPatientDetails bedPatient = new BedPatientDetails("", "", "", "");
+				patientTableModel = new PatientTableModel(bedPatient);
+				table.setModel(patientTableModel);
+				JOptionPane.showMessageDialog(null, "The PatientID does not exist", "Notification", JOptionPane.INFORMATION_MESSAGE);
+			}
 		} 
+	}
+
+	// convert bedName to bedID
+	private String convertBedID(String bedName) {
+		Room r = new Room();
+		for(Bed b : r.getListBed1()){
+			if(b.getBedName().equals(bedName)){
+				return b.getBedID();
+			}
+		}
+		return "Not found";
+	}
+
+	// Find Patient
+	private boolean findPatient() {
+		String patientID = txtSearch.getText();
+		BedPatientDetails b = new BedPatientDetails();
+		for(BedPatientDetails b1 : b.getListBedPatientDetails()){
+			System.out.println(b1.getBedID() + " " + b1.getPatientID() + " " + b1.getGetCheckin());
+			if(b1.getPatientID().equals(patientID) && b1.getCheckout().equals("")){
+				if(checkBedID(b1.getBedID())){
+					String bedID = b1.getBedID();
+					String checkin = b1.getGetCheckin();
+					String checkout = b1.getCheckout();
+					BedPatientDetails bedPatient = new BedPatientDetails(bedID, patientID, checkin, checkout);
+					patientTableModel = new PatientTableModel(bedPatient);
+					table.setModel(patientTableModel);
+					return true;
+				} else
+					return false;
+			}
+		}
+		return false;
+	}
+
+	// check bedID is instanceof Department1 or not
+	private boolean checkBedID(String bedID) {
+		Department d = new Department();
+		for(Room r : d.getListRoom("D1")){
+			Room r1 = new Room();
+			for(Bed b : r1.getListBed(r.getRoomID())){
+				if(b.getBedID().equals(bedID)){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	private void clearText() {

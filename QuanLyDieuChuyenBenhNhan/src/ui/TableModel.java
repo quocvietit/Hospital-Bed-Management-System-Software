@@ -19,6 +19,7 @@ public class TableModel extends AbstractTableModel {
 	private static final int TYPEBED = 5;
 	private ArrayList<Bed> listBed;
 	private String[] columnNames = {"BEDID", "BEDNAME", "PRICE", "STATUS", "ROOMID", "TYPEBED"};
+	private Object[][] data;
 	
 	/**
 	 * @param listBed
@@ -70,10 +71,14 @@ public class TableModel extends AbstractTableModel {
 				return null;
 			}
 	}
-
+	
 	@Override
 	public String toString() {
 		return "TableModel [listBed=" + listBed + "]";
 	}
 	
+	@Override
+	public void setValueAt(Object value, int row, int col) {
+		fireTableCellUpdated(row, col);
+	}
 }

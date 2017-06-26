@@ -15,7 +15,6 @@ public class DataHelper {
 		int date = bedPatientDetails.getCheckin().getDayOfMonth();
 		int month = bedPatientDetails.getCheckin().getMonthValue();
 		int year = bedPatientDetails.getCheckin().getYear();
-
 		String checkin = date + "/" + month + "/" + year;
 		
 		connection = Database.getCon();

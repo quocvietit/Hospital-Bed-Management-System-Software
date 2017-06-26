@@ -75,7 +75,7 @@ public class Room {
 		this.listBed = listBed;
 	}
 
-	public ArrayList<Bed> getListBed() {
+	public ArrayList<Bed> getListBed(String roomID) {
 		Connection connec = Database.getCon();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -99,17 +99,6 @@ public class Room {
 		return roomName;
 	}
 	
-	// Add bed
-//	public boolean addBed(Bed b){
-//		if(listBed.contains(b)){
-//			return false;
-//		}
-//		else{
-//			b.setRoom(this);
-//			return listBed.add(b);
-//		}
-//	}
-	
 	// Find department with roomID
 	public String findDepartment(String roomID) {
 		Department d = new Department();
@@ -125,6 +114,28 @@ public class Room {
 			}
 		}
 		return "Not found";
+	}
+	
+	// update status is pending
+	public boolean updateStatus(String bedID) {
+		Connection connection = Database.getCon();
+		String updateStatus = "update bed set status = ? where bedid = ?";
+		try {
+			PreparedStatement stmt = connection.prepareStatement(updateStatus);
+			stmt.setString(1, "Pending");
+			stmt.setString(2, bedID);
+			int cnt = stmt.executeUpdate();
+			if(cnt > 0){
+				System.out.println("Update Status successfully");
+				return true;
+			}else{
+				System.out.println("Update Status failed");
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }

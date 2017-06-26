@@ -26,8 +26,10 @@ import javax.swing.JTextField;
 import org.apache.log4j.BasicConfigurator;
 
 import convert.XMLConvert;
+import entities.Bed;
 import entities.BedPatientDetails;
 import entities.Patient;
+import entities.Room;
 
 public class GUIAddPatient extends JFrame implements ActionListener{
 	/**
@@ -41,8 +43,8 @@ public class GUIAddPatient extends JFrame implements ActionListener{
 	private JLabel lbPatientName;
 	private JLabel lbDayOfBirth;
 	private JLabel lbIdentityNumber;
-	private JLabel lbBedID;
-	private JLabel lbRoomID;
+	private JLabel lbBedName;
+	private JLabel lbRoomName;
 	private JTextField txtPatientID;
 	private JTextField txtPatientName;
 	private JTextField txtDayOfBirth;
@@ -57,8 +59,16 @@ public class GUIAddPatient extends JFrame implements ActionListener{
 	private JLabel lbErrorPatientName;
 	private JLabel lbErrorDayOfBirth;
 	private JLabel lbErrorIdentityNumber;
+	private String bedID;
+	private String roomID;
+	private Object pending = "Empty";
+	private int row;
+	
+	public GUIAddPatient() {
+		
+	}
 
-	public GUIAddPatient(String bedName, String roomName, String departmentName){
+	public GUIAddPatient(String bedName, String roomName, String departmentName, String bedid, String roomid, int dong){
 		setTitle("Add Patient");
 		setSize(800,600);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -70,6 +80,10 @@ public class GUIAddPatient extends JFrame implements ActionListener{
 		txtBedName.setText(bedName);
 		txtRoomName.setText(roomName);
 		txtDepartment.setText(departmentName);
+		bedID = bedid;
+		roomID = roomid;
+		row = dong;
+		System.out.println("Room ID: " + roomID);
 	}
 
 	private void createGUI() {
@@ -90,8 +104,8 @@ public class GUIAddPatient extends JFrame implements ActionListener{
 		pnlCenter.add(lbPatientName = new JLabel("Patient Name: "));
 		pnlCenter.add(lbDayOfBirth = new JLabel("Day Of Birth: "));
 		pnlCenter.add(lbIdentityNumber = new JLabel("Identity Number: "));
-		pnlCenter.add(lbBedID = new JLabel("Bed ID: "));
-		pnlCenter.add(lbRoomID = new JLabel("Room ID: "));
+		pnlCenter.add(lbBedName = new JLabel("Bed Name: "));
+		pnlCenter.add(lbRoomName = new JLabel("Room Name: "));
 		pnlCenter.add(lbDeparment = new JLabel("Department Name: "));
 
 		lbPatientID.setBounds(100,40,100,40);
@@ -99,8 +113,8 @@ public class GUIAddPatient extends JFrame implements ActionListener{
 		lbDayOfBirth.setBounds(100,160,100,30);
 		lbIdentityNumber.setBounds(100,220,100,30);
 		lbDeparment.setBounds(100, 280, 120, 30);
-		lbBedID.setBounds(100, 340, 100, 30);
-		lbRoomID.setBounds(100, 400, 100, 30);
+		lbBedName.setBounds(100, 340, 100, 30);
+		lbRoomName.setBounds(100, 400, 100, 30);
 
 		pnlCenter.add(txtPatientID = new JTextField());
 		pnlCenter.add(lbErrorPatientID = new JLabel("PatientID does not exist"));
@@ -220,8 +234,8 @@ public class GUIAddPatient extends JFrame implements ActionListener{
 		String dayOfBirth = txtDayOfBirth.getText();
 		String identityNumber = txtIdentityNumber.getText();
 		String departmentName = txtDepartment.getText();
-		String bedID = txtBedName.getText();
-		String roomID = txtRoomName.getText();
+		String bedName = txtBedName.getText();
+		String roomName = txtRoomName.getText();
 		BasicConfigurator.configure();
 		Properties settings = new Properties();
 		settings.setProperty(Context.INITIAL_CONTEXT_FACTORY, "org.apache.activemq.jndi.ActiveMQInitialContextFactory");
@@ -236,7 +250,7 @@ public class GUIAddPatient extends JFrame implements ActionListener{
 			Session session = con.createSession(false, Session.AUTO_ACKNOWLEDGE);
 			MessageProducer producer = session.createProducer(destination);
 			
-			Patient p = new Patient(patientID, patientName, dayOfBirth, identityNumber, departmentName, bedID, roomID);
+			Patient p = new Patient(patientID, patientName, dayOfBirth, identityNumber, departmentName, bedName, roomName);
 			String xml = new XMLConvert<Patient>(p).ObjectToXML(p);
 			System.out.println(xml);
 			Message msg = session.createTextMessage(xml);
@@ -248,11 +262,23 @@ public class GUIAddPatient extends JFrame implements ActionListener{
 			System.out.println("Finished...");
 			btnSend.setEnabled(false);
 			JOptionPane.showMessageDialog(null, "Information Patient sent successfully", "Notification", JOptionPane.INFORMATION_MESSAGE);
+			setStatusIsPending();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		
 	}
-		
-	
+
+	// set Status from Empty to Pending
+	private void setStatusIsPending() {
+		// getlistbed from room with roomid = ?, after that set status is pending
+		Room r = new Room();
+		for(Bed b : r.getListBed(roomID)){
+			if(b.getBedID().equals(bedID) && b.getStatus().equals("Empty")){
+				r.updateStatus(bedID);
+				break;
+			}
+		}
+		GUIDieuChuyenBenhNhan ui = new GUIDieuChuyenBenhNhan();
+		ui.setStatus(roomID, row);
+	}
 }

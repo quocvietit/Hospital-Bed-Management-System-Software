@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -24,6 +25,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
+import database.DbUtils;
 import entities.Bed;
 import entities.Department;
 import entities.Hospital;
@@ -36,7 +38,6 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
-	private TableModel tableMode;
 	private JTable table;
 	private JButton btnAddPatient;
 	private DefaultMutableTreeNode root;
@@ -47,8 +48,12 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener {
 	private String bedName;
 	private String roomID;
 	private String departmentName;
+	private String bedID;
 	private TableModel tableModel;
 	private DefaultTreeModel treeModel;
+	private String status;
+
+	private int row;
 
 	/**
 	 * Create the frame.
@@ -70,7 +75,7 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener {
 		Font font = new Font("Times New Roman", Font.BOLD, 35);
 		JLabel lblTitle = new JLabel("MANAGEMENT PATIENT"); // title
 		lblTitle.setFont(font);
-		lblTitle.setForeground(Color.DARK_GRAY);
+		lblTitle.setForeground(Color.RED);
 		pnNorth.add(lblTitle);
 		contentPane.add(pnNorth, BorderLayout.NORTH);
 
@@ -106,13 +111,6 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener {
 		JPanel pnEastNorth = new JPanel(new BorderLayout());
 		pnEastNorth.setPreferredSize(new Dimension(670, 540));
 		pnEastNorth.add(new JScrollPane(table = new JTable()));
-
-		// table
-		listBed = new Room().getListBed();
-		tableMode = new TableModel(listBed);
-		table = new JTable(tableMode);
-		pnEastNorth.add(new JScrollPane(table));
-
 		pnEast.add(pnEastNorth, BorderLayout.NORTH);
 
 		// South-East
@@ -136,7 +134,7 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener {
 					System.out.println(department.getDepartmentID());
 				} else if(nodeInfo instanceof Room){
 					Room room = (Room) nodeInfo;
-					listBed = room.getListBed();
+					listBed = room.getListBed(room.getRoomID());
 					System.out.println(room.getRoomID());
 					tableModel = new TableModel(listBed);
 					table.setModel(tableModel);
@@ -151,7 +149,6 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				getBedIDAndRoomID();
-				btnAddPatient.setEnabled(true);
 			}
 		});
 		
@@ -171,10 +168,15 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener {
 	}
 
 	public void getBedIDAndRoomID(){
-		int row = table.getSelectedRow();
+		row = table.getSelectedRow();
 		if(row >= 0){
+			bedID = (String) table.getValueAt(row, 0);
 			bedName = (String) table.getValueAt(row, 1);
+			status = (String) table.getValueAt(row, 3);
 			roomID = (String) table.getValueAt(row, 4);
+			if(status.equals("Empty")){
+				btnAddPatient.setEnabled(true);
+			}
 		}
 	}
 	
@@ -192,13 +194,39 @@ public class GUIDieuChuyenBenhNhan extends JFrame implements ActionListener {
 					break;
 				}
 			}
-			GUIAddPatient gui = new GUIAddPatient(bedName, roomName, departmentName);
+			GUIAddPatient gui = new GUIAddPatient(bedName, roomName, departmentName, bedID, roomID, row);
 			gui.setVisible(true);
+			
 		}
+	}
+	
+	public void setStatus(String roomid, int roww) {
+//		JOptionPane.showMessageDialog(null, "Information Patient was updated", "Notification", JOptionPane.INFORMATION_MESSAGE);
+		Room room = new Room();
+		ArrayList<Bed> lstBed = new ArrayList<Bed>();
+		lstBed = room.getListBed(roomid);
+		
+		System.out.println("received roomid: " + roomid);
+		System.out.println(lstBed);
+		
+		TableModel model = new TableModel(lstBed);
+		System.out.println(model);
+		System.out.println("roww: " + roww);
+		
+		
+//		try {
+//			String sql = "select * from ...";
+//			pst = con.prepareStatement(sql);
+//			rs = pst.executeQuery();
+//			table.setModel(DbUtils.resultSetToTableModel(rs));
+//		} catch (Exception e) {
+//			JOptionPane.showMessageDialog(null, e);
+//		}
 	}
 
 	public static void main(String[] args) {
 		new GUIDieuChuyenBenhNhan().setVisible(true);
 	}
+	
 
 }
